@@ -4,9 +4,11 @@
 #include <array>
 #include <stdlib.h>
 #include <ctime>
+#include <cctype>
 using namespace std;
 vector<char> hangmanword;
 int globalcount;
+
 
 void HangManWord(char c, int x, string keyword) {
 
@@ -34,22 +36,7 @@ void checkHangmanWord() {
 
 
 
-bool LetterAlready(char letter, vector<char> hangmanword) {
-	bool existed;
-	for (int i = 0; i < hangmanword.size(); i++) {
-		if (letter == hangmanword.at(i)) {
-			
-			existed = true;
-			break;
-		}
-	}
-	if (existed == true) {
-		return existed;
-	}
-	else {
-		return false;
-	}
-}
+
 
 
 
@@ -59,8 +46,8 @@ bool LettersMatch(char s, string s2) {
 	bool exist = false;
 	
 	for (int i = 0; i < s2.size(); i++) {
-	
-	 
+		
+
 		if (s == s2.at(i)) {
 			count++;
 			HangManWord(s, i, s2);
@@ -97,7 +84,8 @@ void set_up_random()
 
 int main() {
 	set_up_random();
-	vector <string> wordbank = { "xeclouyd", "wafflefries", "gosu", "meteos", "faker", "doublelift", "lemonnation", "rush", "sneaky", "yellowstar", "marin" , "chidoto", "kimyxiaoyue", "lollipopzozo"};
+	bool exist = false;
+	vector <string> wordbank = { "xeclouyd", "wafflefries", "gosu", "meteos", "faker", "doublelift", "lemonnation", "rush", "sneaky", "yellowstar", "marin" , "chidoto", "kimyxiaoyue", "lollipopzozo" , "lustboy", "wildturtle", "scarra"};
 	vector <string> body = { "head", "left arm", "right arm" , "body", "left leg", "right leg" };
 	int choice = 100;
 	int bodyparts = 0;
@@ -106,7 +94,7 @@ int main() {
 	int randomnumber = 0; 
 	
 	char s;
-	std::cout << "Do you want to play the guessing game press Y or y for yes or press N or n for no ? " << std::endl;
+	std::cout << "Do you want to play hangman press Y or y for yes or press N or n for no ? " << std::endl;
 	std::cin >> answer;
 	
 	
@@ -129,31 +117,51 @@ int main() {
 			if (choice == 1) {
 				cout << "Enter the letter " << endl;
 				cin >> s;
-				if (LettersMatch(s, keyword) == false) {
-					cout << "wrong" << endl;
-					bodyparts++;
-					cout << "you have " << " " ;
-					for (int i = 0; i < bodyparts; i++) {
-						cout << body.at(i) << endl;
-					}
-					if (bodyparts == body.size()) {
-						cout << "GG you lose" << endl;
-					}
+				if (isupper(s)) {
+					s = tolower(s);
 				}
-
-				else if (LettersMatch(s, keyword) == true) {
-					cout << "correct" << endl;
-					lettercount += globalcount;
-					
-					cout << "Lettercount " << lettercount << " Keywordsize " << hangmanword.size() << endl;
-					if (lettercount == hangmanword.size()) {
-						cout << "Congrats you won" << "The hangman word is " << keyword << endl;
-						
+				for (int i = 0; i < hangmanword.size(); i++) {
+					if (s == hangmanword.at(i)) {
+						exist = true;
+						cout << "Letter " << s << " already exist in the word" << endl;
 						break;
 					}
+				}
+				if (exist == false) {
+
+					if (LettersMatch(s, keyword) == false) {
+						cout << "wrong" << endl;
+						bodyparts++;
+						cout << "you have " << " ";
+						for (int i = 0; i < bodyparts; i++) {
+							cout << body.at(i) << endl;
+						}
+						if (bodyparts == body.size()) {
+							cout << " GG you lose " << endl;
+							break;
+						}
+					}
+
+					else if (LettersMatch(s, keyword) == true) {
+
+						if (exist == false) {
+							cout << "correct" << endl;
+							lettercount += globalcount;
+							cout << "Lettercount " << lettercount << " Keywordsize " << hangmanword.size() << endl;
+
+						}
+
+
+						if (lettercount == hangmanword.size()) {
+							cout << "Congrats you won !! " << "The hangman word is " << keyword << endl;
+
+							break;
+						}
+
+					}
 
 				}
-
+				exist = false;
 
 			}
 			else if (choice == 2) {
@@ -168,6 +176,7 @@ int main() {
 			else if (choice == 4) {
 				cout << "The keyword is " << keyword << endl;
 				cout << "ggwp" << endl;
+				break;
 			}
 			else if (choice == 5) {
 				checkHangmanWord();
@@ -181,14 +190,7 @@ int main() {
 				cout << "Thank you come again " << endl;
 				exit(0);
 			}
-			else {
-				if (bodyparts == body.size()) {
-					cout << "You Lose" << endl;
-
-					break;
-				}
-
-			}
+			
 		}
 		std::cout << "Would you like to play again press Y or y for yes and N or n for no ? " << std::endl;
 		std::cin >> answer;
