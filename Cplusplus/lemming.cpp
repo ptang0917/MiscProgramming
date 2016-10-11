@@ -10,49 +10,99 @@
 #include <algorithm>
 #include <math.h>
 #include <unordered_map>
+#include <queue>
 using namespace std;
 
 
 int main(){
    int testcase = 0;
-   priority_queue<int> greenteam;
-   priority_queue<int> blueteam;
+   std::priority_queue<int> greenteam;
+   std::priority_queue<int> blueteam;
+   cin >> testcase;
    int battle = 0;
-   cin >> battle;
+   
    int sg = 0;
-   cin >> sg;
+   
    int sb = 0;
-   cin >> sb;
+   
    int bluestrength = 0;
    int greenstrength = 0;
    int winner = 0;
-   
-   for(int i = 0; i < sg; i++){
+   bool draw;
+   for(int i = 0; i < testcase; i++){
+      cin >> battle;
+      cin >> sg;
+      cin >> sb;
+
+      for(int i = 0; i < sg; i++){
    		cin >> greenstrength;
-   		greenteam.push(greenstrength)
+   		greenteam.push(greenstrength);
    
-   }
+      }
    
-   for(int i = 0; i < sb; i++){
+      for(int i = 0; i < sb; i++){
    		cin >> bluestrength;
-   		blueteam.push(bluestrength)
-   }
+   		blueteam.push(bluestrength);
+      }
    
-   while(!greenteam.empty() || !blueteam.empty()){
-   		for(int i = 0; i < battle; i++){
-   			 if(greenteam.top() < blueteam.top()){
+      while(!greenteam.empty() && !blueteam.empty()){
+   		 for(int i = 0; i < battle; i++){
+               // cout << "greenteam " << greenteam.top() << endl;
+               // cout << "blueteam " << blueteam.top() << endl;
+   			 if(greenteam.top() > blueteam.top()){
+
    			 		winner = greenteam.top() - blueteam.top();
    			 		blueteam.pop();
    			 		greenteam.pop();
    			 		greenteam.push(winner);
    			 }
-   			 else if(greenteam.top() > blueteam.top()){
-   			 		
+   			 else if(greenteam.top() < blueteam.top()){
+   			 		 winner = blueteam.top() - greenteam.top();
+   			 		 blueteam.pop();
+   			 		 greenteam.pop();
+   			 		 blueteam.push(winner);
    			 }
+             else if(greenteam.top() == blueteam.top()){
+                   blueteam.pop();
+                   greenteam.pop();
+
+            }
+            if(greenteam.empty() && blueteam.empty()){
+               draw = true;
+               break;
+            }
+            else if(greenteam.empty()){
+               draw = false;
+               break;
+            }
+            else if(blueteam.empty()){
+               draw = false;
+               break;
+            }
    		}
-   }
-   
+      }
 
 
+      if(greenteam.empty() && draw == false){
+   		cout << "blue wins" << endl;
+         for(int i = 0; i < blueteam.size(); i++){
+            cout << blueteam.top() << endl;
+            blueteam.pop();
+         }
+      }
+      else if(blueteam.empty() && draw == false){
+   		cout << "green wins" << endl;
+          for(int i = 0; i < greenteam.size(); i++){
+            cout << greenteam.top() << endl;
+            greenteam.pop();
+         }
+      }
+      else if(blueteam.empty() && greenteam.empty() && draw == true) {
+   		cout << "green and blue died" << endl;
+      }
+
+  }
+
+   return 0; 
 
 }
