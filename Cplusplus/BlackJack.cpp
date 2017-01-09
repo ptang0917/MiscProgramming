@@ -206,6 +206,8 @@ int main() {
 	//bool variables
 	bool inGame = true;
 	bool enableCheck;
+	bool playerTurnend;
+	bool playerLost;
 
 
 	//Debugging Section
@@ -291,11 +293,13 @@ int main() {
 
 
 	//Options for human players 
+
 	cout << "Option 1 Hit" << endl;
 	cout << "Option 2 Stay" << endl;
-
+	cout << "Option 3 Points" << endl;
 	while (options != 2 && playerscore != 21) {
 		cin >> options;
+
 		if (options == 1) {
 			playerCard = gameDeck.top();
 			playerHand1.push_back(playerCard);
@@ -312,23 +316,31 @@ int main() {
 			else {
 				playerscore += calculateScore(playerCard);
 
-
 			}
-			cout << "Your score is:  " << playerscore << endl;
+			
 			if (playerscore > 21) {
 				cout << "GG you lose " << endl;
+				playerLost = true;
+				playerTurnend = true;
 				break;
 			}
 			else if (playerscore == 21) {
 				cout << "You Score 21 " << endl;
+				
 				break;
 			}
 
 		}
+
 		else if (options == 2) {
+			playerTurnend = true;
 			break;
 		}
+		else if (options == 3){
+			cout << "Your score is " << playerscore << endl;
+		}
 	}
+
 
 	cout << "Your Hand:" << endl;
 	for (int i = 0; i < playerHand1.size(); i++) {
@@ -336,11 +348,14 @@ int main() {
 	}
 	cout << "Your score is:  " << playerscore << endl;
 
-
+	if(playerTurnend == true){
+		options = 0;
+	}
 
 
 
 	cout << "Player 2's Hand" << endl;
+	cout << "options " << options << endl; //Debugging Purposes
 	for (int i = 0; i < playerHand2.size(); i++) {
 		cout << playerHand2.at(i) << endl;
 
@@ -351,11 +366,11 @@ int main() {
 		choice = get_random();
 		if (choice == 1) {
 			cout << "Player 2 has set the Ace Value to 1" << endl;
-			playerscore2 += 1;
+			playerscore2 = 1;
 		}
 		else if (choice == 2) {
 			cout << "Player 2 has set the Ace Value to 11" << endl;
-			playerscore2 += 11;
+			playerscore2 = 11;
 		}
 
 		if (playerHand2.at(0).at(0) == 'A') {
@@ -376,12 +391,14 @@ int main() {
 	cout << "Player 2 score : " << playerscore2 << endl;
 
 	while (options != 2) {
-		if (playerscore2 >= 2 || playerscore2 < 20) {
+		if ((playerscore2 >= 2 && playerscore2 <= 13) || (playerscore2 <= playerscore || playerLost == true) ) {
 			options = 1;
 		}
-		else if (playerscore2 == 20) {
+		else if ( (playerscore >= 14  && playerscore2 <= 20) || (playerscore2 >= playerscore || playerLost == true)) {
 			options = 2;
 		}
+
+		cout << "options" << " " << options << endl;
 
 		if (options == 1) {
 			playerCard = gameDeck.top();
@@ -391,7 +408,7 @@ int main() {
 			for (int i = 0; i < playerHand2.size(); i++) {
 				cout << playerHand2.at(i) << endl;
 			}
-			if (playerHand2.at(0).at(0) == 'A' || playerHand2.at(1).at(0) == 'A') {
+			if (playerCard.at(0) == 'A') {
 				choice = get_random();
 				if (choice == 1) {
 					cout << "Player 2 has set the Ace Value to 1" << endl;
@@ -433,14 +450,29 @@ int main() {
 	cout << "Player 2's score:  " << playerscore2 << endl;
 
 	if (playerscore2 > playerscore) {
-		cout << "GG Player 2 wins " << endl;
+		if (playerscore2 > 21 && playerscore > 21) {
+			cout << "GG you both lose " << endl;
+		}
+		else if(playerscore2 > 21) {
+			cout << "GG you wins " << endl;
+		}
+		else {
+			cout << "GG Player 2 Wins " << endl;
+		}
+		
 	}
 	else if (playerscore2 < playerscore) {
-		cout << "GG You Win " << endl;
+		if (playerscore2 > 21 && playerscore > 21) {
+			cout << "GG you both lose " << endl;
+		}
+		else if(playerscore > 21) {
+			cout << "GG player 2  wins " << endl;
+		}
+		else {
+			cout << "GG You Win" << endl;
+		}
 	}
-	else if (playerscore2 > 21 && playerscore > 21) {
-		cout << "GG you both lose " << endl;
-	}
+
 	else if (playerscore2 == playerscore) {
 		cout << "GG both players tied " << endl;
 	}
