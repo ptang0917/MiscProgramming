@@ -244,6 +244,8 @@ int main() {
 			singleCard = CurrentCard.print();
 			gameDeck.push(singleCard);
 		}
+		
+		
 
 
 		for (int i = 0; i < 2; i++) {
@@ -269,6 +271,8 @@ int main() {
 
 
 		}
+		
+		
 		if (playerHand1.at(0).at(0) == 'A' || playerHand1.at(1).at(0) == 'A') {
 			cout << "Do you want the ace value to be 1 or 11 ?" << endl;
 			cin >> acevalue;
@@ -291,7 +295,9 @@ int main() {
 			cout << "Congrats you received blackjack 21~" << endl;
 		}
 
-
+        cout << "Dealer's Hand  " << endl;
+		cout << playerHand2.at(0) << endl;
+		
 
 
 
@@ -367,6 +373,16 @@ int main() {
 		}
 		if (playerHand2.at(0).at(0) == 'A' || playerHand2.at(1).at(0) == 'A') {
 			
+			if(playerHand2.at(0).at(0) == 'A'){
+				if(playerHand2.at(1).at(0) == 'J' || playerHand2.at(1).at(0) == 'Q' || playerHand2.at(1).at(0) == 'K'){
+					choice = 2;
+				}
+				else if(playerHand2.at(1).at(0) == '1' && playerHand2.at(1).at(0) == '0'){
+					choice = 2;
+				}
+				else if
+			}
+			
 			if (choice == 1) {
 				cout << "Player 2 has set the Ace Value to 1" << endl;
 				playerscore2 = 1;
@@ -394,7 +410,7 @@ int main() {
 
 		cout << "Player 2 score : " << playerscore2 << endl;
 
-		while (options != 2) {
+		while (options != 2 && playerscore2 != 21) {
 			if ((playerscore2 > playerscore)) {
 				dealerHit = false;
 			}
@@ -499,6 +515,8 @@ int main() {
 		else if (playerscore2 == playerscore) {
 			cout << "GG both players tied " << endl;
 		}
+		
+		//Takes all the player's cards and put them back to the deck.
 		for(int i = 0; i < playerHand1.size(); i++){
 			gameDeck.push(playerHand1.at(i));
       	}
@@ -517,6 +535,8 @@ int main() {
 		cout << "Would you like to play again press Y or y for yes and N or n for no ? " << endl;
 		cin >> answer;
 		if(answer == 'y' || answer == 'Y' ) {
+		    
+		    //Resets the player's deck
 			playerscore = 0;
       		playerscore2 = 0;
       		options = 0;
