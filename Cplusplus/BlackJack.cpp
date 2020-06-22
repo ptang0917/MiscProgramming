@@ -380,7 +380,6 @@ int main() {
 				else if(playerHand2.at(1).at(0) == '1' && playerHand2.at(1).at(0) == '0'){
 					choice = 2;
 				}
-				else if
 			}
 			
 			if (choice == 1) {

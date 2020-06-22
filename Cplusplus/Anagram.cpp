@@ -51,14 +51,7 @@ int main(){
 			cout << s1 << " and " << s2 << " are not  anagrams " << endl;
 		}
 
-
-
 	}
-
-
-
-
-
 
 	return 0;
 }
