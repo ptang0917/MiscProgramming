@@ -1,25 +1,13 @@
 #include <iostream>
 #include <string>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int charactersMatch(char c, string word) {
-	int match;
-	for(int i = 0; i < word.size(); i++){
-		if(word.at(i) == c && match == 0){
-			//cout << "letter " << c << endl;
-			//cout << "letter 2 " << word.at(i) << endl;
-			match++;
-		}
-		else if(word.at(i) == c && match > 0){
-			break;
-		}
-		
-	}
-	return match;
-}
 
 int main(){
+	map<char,int> lettermap1;
+	map<char,int> lettermap2;
 	string s1;
 	cout << "Enter the first word " << endl;
 	cin >> s1;
@@ -27,26 +15,50 @@ int main(){
 	cout << "Enter the second word " << endl;
 	string s2;
 	cin >> s2;
-	int count;
-	int i = 0;
-	bool notanagram;
-	if(s1.size() == s2.size()){
-		for(int i = 0; i < s1.size(); i++){
-			count += charactersMatch(s1.at(i), s2); 
-			
-		}
-		if(count == s1.size()){
-			cout << s1 << " and " << s2 << " are  anagrams  " << endl;
+	int firstwordmatchcount = 0;
+	int secondwordmatchcount = 0;
 
-		}
-		else {
-			cout << s1 << " and " << s2 << " are not anagrams  " << endl;
+	for(int i =0; i < s1.size(); i++){
+		if(s1.at(i) != ' '){
+			lettermap1[s1.at(i)] += 1;
 		}
 		
 	}
-	else {
-		cout << s1 << " and " << s2 << " are not anagrams as they don't have the same amount of characters " << endl;
+	for(int i = 0; i < s2.size(); i++){
+		if(s2.at(i) != ' '){
+			lettermap2[s2.at(i)] += 1;
+		}
+		
 	}
+	if(lettermap2.size() != lettermap1.size()){
+		cout << s1 << " and " << s2 << " are not anagrams " << endl;
+	}
+	else{
+		for(auto x: lettermap1){
+			if(x.second == lettermap2[x.first]){
+				firstwordmatchcount++;
+			}
+		}
+		for(auto y: lettermap2){
+			if(y.second == lettermap1[y.first]){
+				secondwordmatchcount++;
+			}
+		}
+		if(firstwordmatchcount == secondwordmatchcount){
+			cout << s1 << " and " << s2 << " are  anagrams " << endl;
+		}
+		else{
+			cout << s1 << " and " << s2 << " are not  anagrams " << endl;
+		}
+
+
+
+	}
+
+
+
+
+
 
 	return 0;
 }
